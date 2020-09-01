@@ -1,4 +1,4 @@
-name: Kitpymes.Core.Repositories
+name: Kitpymes.Core.Entities
 
 on: [push]
 
