@@ -1,0 +1,25 @@
+{
+    "SecuritySettings": {
+        "PasswordSettings": {
+            "Enabled": true, // (bool) Default: false
+            "RequireDigit": null, // (bool) Default: false
+            "RequireLowercase": null, // (bool) Default: false
+            "RequireUppercase": null, // (bool) Default: false
+            "RequireEspecialChars": null, // (bool) Default: false
+            "RequiredUniqueChars": null, // (bool) Default: false
+            "RequiredMinLength": 4 // (int) Default: 6
+        },
+        "EncryptorSettings": {
+            "Enabled": true // (bool) Default: false
+        },
+        "JsonWebTokenSettings": {
+            "Enabled": true, // (bool) Default: false
+            "key": null, // (string) Default: key value
+            "ValidAudience": null, // (string) Default: null
+            "ValidIssuer": null, // (string) Default: null
+            "AuthenticateScheme": null, // (string) Default: Bearer
+            "ChallengeScheme": null, // (string) Default: Bearer
+            "RequireExpirationTime": null // (bool) Default: true
+        }
+    }
+}

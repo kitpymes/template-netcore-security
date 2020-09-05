@@ -45,9 +45,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "signassembly", "signassembl
 		docs\signassembly\SignStrong.snk = docs\signassembly\SignStrong.snk
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kitpymes.Core.Entities", "Kitpymes.Core.Entities\Kitpymes.Core.Entities.csproj", "{E02EE064-E0CB-4C9E-9439-DCC6E8E6DC6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Kitpymes.Core.Security", "Kitpymes.Core.Security\Kitpymes.Core.Security.csproj", "{C0C5F383-8D68-45A5-9055-C887DB85E0E6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kitpymes.Core.Entities.Tests", "Kitpymes.Core.Entities.Tests\Kitpymes.Core.Entities.Tests.csproj", "{8C2F8CB9-7FF3-4A5A-BCD0-F74AC54CAF58}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kitpymes.Core.Security.Tests", "Kitpymes.Core.Security.Tests\Kitpymes.Core.Security.Tests.csproj", "{D772E47E-11E0-4FB0-A490-5F2DFF7A69DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -55,14 +55,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E02EE064-E0CB-4C9E-9439-DCC6E8E6DC6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E02EE064-E0CB-4C9E-9439-DCC6E8E6DC6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E02EE064-E0CB-4C9E-9439-DCC6E8E6DC6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E02EE064-E0CB-4C9E-9439-DCC6E8E6DC6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C2F8CB9-7FF3-4A5A-BCD0-F74AC54CAF58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C2F8CB9-7FF3-4A5A-BCD0-F74AC54CAF58}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C2F8CB9-7FF3-4A5A-BCD0-F74AC54CAF58}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C2F8CB9-7FF3-4A5A-BCD0-F74AC54CAF58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C5F383-8D68-45A5-9055-C887DB85E0E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C5F383-8D68-45A5-9055-C887DB85E0E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C5F383-8D68-45A5-9055-C887DB85E0E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C5F383-8D68-45A5-9055-C887DB85E0E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D772E47E-11E0-4FB0-A490-5F2DFF7A69DC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D772E47E-11E0-4FB0-A490-5F2DFF7A69DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D772E47E-11E0-4FB0-A490-5F2DFF7A69DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D772E47E-11E0-4FB0-A490-5F2DFF7A69DC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
