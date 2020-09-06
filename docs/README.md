@@ -246,7 +246,7 @@ public static class PasswordServiceCollectionExtensions
 
 _Cada proyecto tiene su respectivo test, se ejecutan desde el "Explorador de pruebas"_
 
-![Tests](images/screenshot/pruebas_unitarias.png)
+![Tests](images/screenshot/resultados_testing.png)
 
 
 ## 🛠️ Construido con 
