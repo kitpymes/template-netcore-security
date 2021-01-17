@@ -39,7 +39,7 @@ namespace Kitpymes.Core.Security
         /// <summary>
         /// Valor por defecto que indica la ruta donde se guardaran las encriptaciones.
         /// </summary>
-        public const string DefaultPersistKeysToFileSystem = @"bin\debug\keys";
+        public const string DefaultPersistKeysToFileSystem = @"bin\keys";
 
         private bool _enabled = DefaultEnabled;
 

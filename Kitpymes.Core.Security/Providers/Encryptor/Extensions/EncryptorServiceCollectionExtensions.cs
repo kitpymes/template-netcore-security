@@ -68,8 +68,13 @@ namespace Kitpymes.Core.Security
                      .ProtectKeysWithDpapi()
                      .SetDefaultKeyLifetime(TimeSpan.FromDays(config.KeyLifetimeFromDays!.Value));
 
-                    if (!config.PersistKeysToFileSystem.ToIsNullOrEmpty() && config.PersistKeysToFileSystem.ToIsDirectory())
+                    if (!config.PersistKeysToFileSystem.ToIsNullOrEmpty())
                     {
+                        if (!config.PersistKeysToFileSystem.ToIsDirectory())
+                        {
+                            Directory.CreateDirectory(config.PersistKeysToFileSystem);
+                        }
+
                         x.PersistKeysToFileSystem(new DirectoryInfo(config.PersistKeysToFileSystem));
                     }
                 });
