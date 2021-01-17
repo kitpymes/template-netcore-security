@@ -64,6 +64,8 @@ namespace Kitpymes.Core.Security
             {
                 services.LoadEncryptor(x =>
                 {
+                    var environment = services.ToEnvironment();
+
                     x.SetApplicationName(config.ApplicationName)
                      .ProtectKeysWithDpapi()
                      .SetDefaultKeyLifetime(TimeSpan.FromDays(config.KeyLifetimeFromDays!.Value));

@@ -72,8 +72,7 @@ namespace Kitpymes.Core.Security
         public EncryptorOptions WithPersistKeysToFileSystems(string persistKeysToFileSystem = EncryptorSettings.DefaultPersistKeysToFileSystem)
         {
             EncryptorSettings.PersistKeysToFileSystem = persistKeysToFileSystem
-                .ToIsNullOrEmptyThrow(nameof(persistKeysToFileSystem))
-                .ToIsDirectoryThrow(nameof(persistKeysToFileSystem));
+                .ToIsNullOrEmptyThrow(nameof(persistKeysToFileSystem));
 
             return this;
         }
