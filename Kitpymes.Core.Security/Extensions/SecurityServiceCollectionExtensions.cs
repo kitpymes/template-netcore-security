@@ -31,7 +31,7 @@ namespace Kitpymes.Core.Security
         /// </summary>
         /// <param name="services">Colección de servicios.</param>
         /// <param name="configuration">Configuración del servicio de seguridad.</param>
-        /// <returns>IServiceCollection.</returns>
+        /// <returns>IServiceCollection | ApplicationException: si SecuritySettings es nulo.</returns>
         public static IServiceCollection LoadSecurity(
             this IServiceCollection services,
             IConfiguration configuration)
@@ -48,7 +48,7 @@ namespace Kitpymes.Core.Security
         /// </summary>
         /// <param name="services">Colección de servicios.</param>
         /// <param name="options">Configuración del servicio de seguridad.</param>
-        /// <returns>IServiceCollection.</returns>
+        /// <returns>IServiceCollection | ApplicationException: si SecuritySettings es nulo.</returns>
         public static IServiceCollection LoadSecurity(
             this IServiceCollection services,
             Action<SecurityOptions> options)
@@ -59,24 +59,24 @@ namespace Kitpymes.Core.Security
         /// </summary>
         /// <param name="services">Colección de servicios.</param>
         /// <param name="settings">Configuración del servicio de seguridad.</param>
-        /// <returns>IServiceCollection.</returns>
+        /// <returns>IServiceCollection | ApplicationException: si SecuritySettings es nulo.</returns>
         public static IServiceCollection LoadSecurity(
             this IServiceCollection services,
             SecuritySettings settings)
         {
             var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
 
-            if (config.EncryptorSettings != null)
+            if (config.EncryptorSettings?.Enabled == true)
             {
-                services.LoadEncryptor();
+                services.LoadEncryptor(config.EncryptorSettings);
             }
 
-            if (config.JsonWebTokenSettings != null)
+            if (config.AuthenticationSettings?.Enabled == true)
             {
-                services.LoadJsonWebToken(config.JsonWebTokenSettings);
+                services.LoadAuthentication(config.AuthenticationSettings);
             }
 
-            if (config.PasswordSettings != null)
+            if (config.PasswordSettings?.Enabled == true)
             {
                 services.LoadPassword(config.PasswordSettings);
             }

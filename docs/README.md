@@ -42,11 +42,36 @@ dotnet add package Kitpymes.Core.Security
 ```cs
 public class SecuritySettings
 {
-    public PasswordSettings PasswordSettings { get; set; } = new PasswordSettings();
-
+    public EncryptorSettings EncryptorSettings { get; set; } = new EncryptorSettings();
+    
     public JsonWebTokenSettings JsonWebTokenSettings { get; set; } = new JsonWebTokenSettings();
 
-    public EncryptorSettings EncryptorSettings { get; set; } = new EncryptorSettings();
+    public PasswordSettings PasswordSettings { get; set; } = new PasswordSettings();
+}
+```
+
+```cs
+public class SecurityOptions
+{
+    public SecurityOptions WithEncryptor(IConfiguration configuration) {}
+
+    public SecurityOptions WithEncryptor(Action<EncryptorOptions> options) {}
+
+    public SecurityOptions WithEncryptor(EncryptorSettings settings) {}
+
+    
+    public SecurityOptions WithJsonWebToken(IConfiguration configuration) {}
+    
+    public SecurityOptions WithJsonWebToken(Action<JsonWebTokenOptions> option) {}
+
+    public SecurityOptions WithJsonWebToken(JsonWebTokenSettings settings) {}
+
+
+    public SecurityOptions WithPassword(IConfiguration configuration) {}
+
+    public SecurityOptions WithPassword(Action<PasswordOptions> option) {}
+
+    public SecurityOptions WithPassword(PasswordSettings settings) {}
 }
 ```
 
@@ -64,24 +89,28 @@ public static class SecurityServiceCollectionExtensions
 ### Encryptor
 
 ```cs
-public interface IEncryptorService
+public class EncryptorSettings
 {
-    string Encrypt(string? value);
+    public bool? Enabled { get; set; }
 
-    string Decrypt(string? value);
+    public string? ApplicationName { get; set; }
 
-    string Encrypt<T>(T value) 
-        where T : class;
+    public int? KeyLifetimeFromDays { get; set; }
 
-    T Decrypt<T>(string? value)
-        where T : class, new();
+    public string? PersistKeysToFileSystem { get; set; }
 }
 ```
 
 ```cs
-public class EncryptorSettings
+public class EncryptorOptions
 {
-    public bool? Enabled { get; set; }
+    public EncryptorOptions WithEnabled(bool enabled = true) {}
+
+    public EncryptorOptions WithApplicationName(string? applicationName) {}
+
+    public EncryptorOptions WithKeyLifetimeFromDays(int? keyLifetimeFromDays) {}
+
+    public EncryptorOptions WithPersistKeysToFileSystems(string? persistKeysToFileSystem) {}
 }
 ```
 
@@ -90,9 +119,24 @@ public static class EncryptorServiceCollectionExtensions
 {
     public static IEncryptorService GetEncryptor(this IServiceCollection services) {}
 
-    public static IServiceCollection LoadEncryptor(this IServiceCollection services, bool enabled = true) {}
+    public static IServiceCollection LoadEncryptor(this IServiceCollection services, Action<EncryptorOptions> settings) {}
 
     public static IServiceCollection LoadEncryptor(this IServiceCollection services, EncryptorSettings settings) {}
+
+    public static IServiceCollection LoadEncryptor(this IServiceCollection services, Action<IDataProtectionBuilder> dataProtectionBuilder) {}
+}
+```
+
+```cs
+public interface IEncryptorService
+{
+    string Encrypt(string? value, TimeSpan? lifetime = null);
+
+    string Decrypt(string? value);
+
+    string Encrypt<T>(T value, TimeSpan? lifetime = null) where T : class;
+
+    T Decrypt<T>(string? value) where T : class, new();
 }
 ```
 
@@ -196,7 +240,7 @@ public interface IPasswordService
 ```cs
 public enum PasswordResult
 {
-    NullOrEmpty,
+    RequiredValue,
 
     RequireDigit,
 

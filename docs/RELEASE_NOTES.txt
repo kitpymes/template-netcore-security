@@ -1,2 +1,5 @@
+# v.1.0.1
+- Se actualizan los tipos de autenticación y librerías del proyecto.
+
 # v.1.0.0
 - Se genera la primera versión del paquete del proyecto. 

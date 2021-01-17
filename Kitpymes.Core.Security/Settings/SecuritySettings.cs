@@ -22,18 +22,18 @@ namespace Kitpymes.Core.Security
     public class SecuritySettings
     {
         /// <summary>
-        /// Obtiene o establece la configuración de la contraseña.
-        /// </summary>
-        public PasswordSettings PasswordSettings { get; set; } = new PasswordSettings();
-
-        /// <summary>
-        /// Obtiene o establece la configuración del token de sesión.
-        /// </summary>
-        public JsonWebTokenSettings JsonWebTokenSettings { get; set; } = new JsonWebTokenSettings();
-
-        /// <summary>
         /// Obtiene o establece la configuración de la encriptación.
         /// </summary>
-        public EncryptorSettings EncryptorSettings { get; set; } = new EncryptorSettings();
+        public EncryptorSettings? EncryptorSettings { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece la configuración de la autenticación.
+        /// </summary>
+        public AuthenticationSettings? AuthenticationSettings { get; set; }
+
+        /// <summary>
+        /// Obtiene o establece la configuración de la contraseña.
+        /// </summary>
+        public PasswordSettings? PasswordSettings { get; set; }
     }
 }

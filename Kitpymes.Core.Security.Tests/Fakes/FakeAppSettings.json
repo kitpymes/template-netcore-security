@@ -7,19 +7,50 @@
             "RequireUppercase": null, // (bool) Default: false
             "RequireEspecialChars": null, // (bool) Default: false
             "RequiredUniqueChars": null, // (bool) Default: false
-            "RequiredMinLength": 4 // (int) Default: 6
+            "RequiredMinLength": 4, // (int) Default: 6
+            "EncryptionSettings": {
+                "FormatMarker": null, // (byte) Default: 0xC0
+                "IterCount": null, // (int) Default: 50000
+                "HeaderByteLength": null, // (int) Default: 13
+                "KeyDerivationAlgorithm": null, // (int) Default: 1 | Options (0 = HMACSHA1, 1 = HMACSHA256, 2 = HMACSHA512)
+                "SaltLength": null, // (int) Default: 16 | Options (16 = 128 bits, 32 = 256 bits, 64 = 512 bits)
+                "AlgorithmName": null // (string) Default: SHA256 | Options (MD5, SHA1, SHA256, SHA384, SHA256)
+            }
         },
         "EncryptorSettings": {
-            "Enabled": true // (bool) Default: false
-        },
-        "JsonWebTokenSettings": {
             "Enabled": true, // (bool) Default: false
-            "key": null, // (string) Default: key value
-            "ValidAudience": null, // (string) Default: null
-            "ValidIssuer": null, // (string) Default: null
-            "AuthenticateScheme": null, // (string) Default: Bearer
-            "ChallengeScheme": null, // (string) Default: Bearer
-            "RequireExpirationTime": null // (bool) Default: true
+            "ApplicationName": "AppTest", // (string) Default: "App"
+            "KeyLifetimeFromDays": 7, // (int) Default: 30 : Debe ser mayor o igual a 7 días.
+            "PersistKeysToFileSystem": "Fakes/PersistKeysToFileSystems" // (string) Default: "bin\debug\keys"
+        },
+        "AuthenticationSettings": {
+            "Enabled": true, // (bool) Default: false
+            "JsonWebTokenSettings": {
+                "Enabled": true, // (bool) Default: false
+                "AuthenticateScheme": "BearerAuthenticateTest", // (string) Default: "Bearer"
+                "ChallengeScheme": "BearerChallengeTest", // (string) Default: "Bearer"
+                "RequireHttpsMetadata": false, // (bool) Default: true (debe desactivarse en entornos de desarrollo)
+                "RequireExpirationTime": null, // (bool) Default: true
+                "SaveToken": null, // (bool) Default: true
+                "IncludeErrorDetails": null, // (bool) Default: true
+                "ValidateLifetime": null, // (bool) Default: true
+                "Expire": {
+                    "Days": 1, // (int) Default: 30
+                    "Hours": 2, // (int) Default: 0
+                    "Minutes": 3, // (int) Default: 0
+                    "Seconds": 4 // (int) Default: 0
+                },
+                "PublicKey": "MIIBCgKCAQEA3XnVp+0h9h0xVGo4TKKUd9qYEBfkrj+t3W0Ex58jWXM6UELi+c2VnmrYR3YFARNYsjqaNXEvhsFsoRYQi8aYJ61KPaOb+/hT6dCaGIR0PEqs5r6+0wK0IXIvjiQH647OHkci+nVNj0dxSwSTJ4rnrwa7ez9cw85fe+xpGtm0KszxLnzR65DkiuFhzkgXXD25+v5uBKXTTOiggcU52MEENsIdvdnPQsHdghgfIJCOUcIUt3CjVcMy2mJOOlC1FaBqb8Suj8ydL3cUVSad95coonzlwLm0X9bv12RKPal6QPaUn2zSQO64Syt6mpOF1ogZIyWX1IJbJ+uZltvoqVXSuQIDAQAB", // (string) Default: null
+                "PrivateKey": "MIIEpAIBAAKCAQEA3XnVp+0h9h0xVGo4TKKUd9qYEBfkrj+t3W0Ex58jWXM6UELi+c2VnmrYR3YFARNYsjqaNXEvhsFsoRYQi8aYJ61KPaOb+/hT6dCaGIR0PEqs5r6+0wK0IXIvjiQH647OHkci+nVNj0dxSwSTJ4rnrwa7ez9cw85fe+xpGtm0KszxLnzR65DkiuFhzkgXXD25+v5uBKXTTOiggcU52MEENsIdvdnPQsHdghgfIJCOUcIUt3CjVcMy2mJOOlC1FaBqb8Suj8ydL3cUVSad95coonzlwLm0X9bv12RKPal6QPaUn2zSQO64Syt6mpOF1ogZIyWX1IJbJ+uZltvoqVXSuQIDAQABAoIBAA7bGUXGVjzYAHMVHOmnDiZr9z89Gw3FH7h2k5eASTK60/KGSgtPivWxXQiOFg/YaF6sJ6PmD7YOS2cSv9FgZNxkd1JjIxdntNk+MNfsKo/QwoBH0yz8RXDo49+48v8N+S12wBXkwGsX87WAfQ5t9tR6syC1Q1evBCCf3vz6FWe5b4v6liFlObP2DkuyGBOszworebLNIektVE3IgrST5Ug3SqjGvQfYzaQc9feuypM1CDNbNa+YUWgRfbE3I1Zm/cGIUx6UZWpmzeCbVZvkNhe2p+HWytCmQyeXkCDiJSL9SWtjE69NTjyZNaeNiAVSZZfiRQJYHMPIPmsGz1LP6gECgYEA976YjzQAfD0eZRbRoMU+1I9VhmpGAoHY0PbXK6Bn4SsR7nUEYfLFOyVYEgY7+j9m+dkQ2BnIx64p9BthywVMsVz03DIFwX2RmpXFSUvhi513J5gwpStKQ4fRWOKeo5eed23gFgORgQUcZyrhHYngAIbGmEXq3HndETq688LNG8kCgYEA5Nsm/cSlbKkWexm9hdxcJYnLnssgaipgyYm3wJaJettvueEYLN7nlUOsmJiKBdzNgzPlrFKwhMYGKujX0jbb+6neOdrkrLYTlM2E12UF3J3Jb2Vo4C8hERDBUF5nbj0ejeWVLNf6XDM5G0/U6D/v54+RQtc0FO6Fq1fdRHihl3ECgYEA8Q6rMuvObRSrNoF1h5FlCT5OYXOWm2nspacIxpJVgWp/EB8cHJI0BtDXWPJn+Z8ne4QSN7MfAewdNkBOb1TAwvNH7dlecF7WBiwkwqTq2QZmokgbTRtKL1s//9TBtzwYHOz0VXczZO6sLFY0pKE7LEf3hMLDO7P3voP+1KB/IsECgYEAkc8bIZXXe8qjWx0ERjQmtXf8tphed6W2ctF+tIJ050TGA1zpxTTjwZMTdUnCroeGnLBFBazNcFqmdVJSp0lykP4iayQOjAeZpDXpDD7+JBiXzZSD5EnCvJe7QtRS+8aPIAMFL0QP7Axqtv7+/FY4KIWtHDP2p9tsaMWbYVOmSNECgYA5xIBHwemTcUEswnclX+J2I7ZTMyXeeLaLtCakrz9aPmjLhEonHfVwCFDIStRf9gsD98tiM3pxFfkCJkJpUx9+RKT7WU82DSH0ukeTYMQTpALt0GAAJTX6DbzI2Pr0PpAJvI2XWwPUCLGUemgsOZlZcM/x53VXc1rEbvHOl5AFvw==", // (string) Default: null
+                "Issuer": "https://frontend:8080", // (string) Default: null
+                "Audience": "https://backend:8076" // (string) Default: null
+            },
+            "CookiesSettings": {
+                "Enabled": null // (bool) Default: false
+            },
+            "OAuthSettings": {
+                "Enabled": null // (bool) Default: false
+            }
         }
     }
 }

@@ -5,7 +5,7 @@
   <Choose>
     <When Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
       <PropertyGroup>
-        <Version>1.0.0</Version>
+        <Version>1.0.1</Version>
         <ApplicationIcon>$(SolutionDir)docs\images\logo.ico</ApplicationIcon>
         <PackageId>$(AssemblyName)</PackageId>
         <Authors>Kitpymes, Sebastian R Ferrari</Authors>
@@ -21,7 +21,7 @@
         <PackageReleaseNotes>https://github.com/kitpymes/template-netcore-security/tree/master/docs/RELEASE_NOTES.txt</PackageReleaseNotes>
         <RepositoryUrl>https://github.com/kitpymes/template-netcore-security</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
-        <PackageTags>Security, Json Web Token, Password Service, Encrypt, Decrypt, Seguridad, Token de sesión, Servicio de contraseña, encriptador, desencriptador.</PackageTags>
+        <PackageTags>Security, JsonWebToken, Password, Encrypt, Decrypt, Seguridad, Token, Contraseña, Encriptador, Desencriptador</PackageTags>
         <PackageOutputPath>$(SolutionDir)docs\packages\$(Version)</PackageOutputPath>
       </PropertyGroup>
     

@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Linq;
 
 namespace Kitypmes.Core.Security.Tests
 {
@@ -29,9 +30,9 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow(nameof(PasswordServiceTest))]
         public void DefaultSettings_Passing_Valid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword().GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(x => x.WithEnabled())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
             var isValid = passwordService.Verify(plainPassword, hashPassword!);
 
@@ -43,11 +44,11 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow("1a_e")]
         public void DefaultSettings_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword().GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(x => x.WithEnabled())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
+            Assert.IsTrue(errors.Any());
         }
 
         #endregion DefaultSettings
@@ -71,9 +72,9 @@ namespace Kitypmes.Core.Security.Tests
                 .GetSection(nameof(PasswordSettings))
                 .Get<PasswordSettings>();
 
-            passwordService = services.LoadPassword(passwordSettings).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(passwordSettings)).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
             var isValid = passwordService.Verify(plainPassword, hashPassword!);
 
@@ -89,12 +90,12 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow(nameof(PasswordServiceTest))]
         public void RequireDigit_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword(options => options.WithRequireDigit()).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options => options.WithEnabled().WithRequireDigit())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
-            Assert.IsTrue(errors!.Contains(PasswordResult.RequireDigit));
+            Assert.IsTrue(errors.Any());
+            Assert.IsTrue(errors.Contains(PasswordErrorResult.RequireDigit));
         }
 
         #endregion RequireDigit
@@ -106,12 +107,12 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow(nameof(PasswordServiceTest))]
         public void RequiredMinLength_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword(options => options.WithRequiredMinLength(30)).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options => options.WithEnabled().WithRequiredMinLength(30))).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
-            Assert.IsTrue(errors!.Contains(PasswordResult.RequiredMinLength));
+            Assert.IsTrue(errors.Any());
+            Assert.IsTrue(errors.Contains(PasswordErrorResult.RequiredMinLength));
         }
 
         #endregion RequiredMinLength
@@ -123,12 +124,12 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow(nameof(PasswordServiceTest))]
         public void RequiredUniqueChars_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword(options => options.WithRequiredUniqueChars()).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options => options.WithEnabled().WithRequiredUniqueChars())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
-            Assert.IsTrue(errors!.Contains(PasswordResult.RequiredUniqueChars));
+            Assert.IsTrue(errors.Any());
+            Assert.IsTrue(errors.Contains(PasswordErrorResult.RequiredUniqueChars));
         }
 
         #endregion RequiredUniqueChars
@@ -140,12 +141,12 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow(nameof(PasswordServiceTest))]
         public void RequireEspecialCharacters_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword(options => options.WithRequireEspecialCharacters()).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options => options.WithEnabled().WithRequireEspecialCharacters())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
-            Assert.IsTrue(errors!.Contains(PasswordResult.RequireEspecialChars));
+            Assert.IsTrue(errors.Any());
+            Assert.IsTrue(errors.Contains(PasswordErrorResult.RequireEspecialChars));
         }
 
         #endregion RequireEspecialCharacters
@@ -156,12 +157,12 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow("PASSWORD")]
         public void RequireLowercase_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword(options => options.WithRequireLowercase()).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options => options.WithEnabled().WithRequireLowercase())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
-            Assert.IsTrue(errors!.Contains(PasswordResult.RequireLowercase));
+            Assert.IsTrue(errors.Any());
+            Assert.IsTrue(errors.Contains(PasswordErrorResult.RequireLowercase));
         }
 
         #endregion RequireLowercase
@@ -172,12 +173,12 @@ namespace Kitypmes.Core.Security.Tests
         [DataRow("password")]
         public void RequireUppercase_Passing_Invalid_Value_Returns_HasErrorsAndErrors(string plainPassword)
         {
-            passwordService = services.LoadPassword(options => options.WithRequireUppercase()).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options => options.WithEnabled().WithRequireUppercase())).GetPassword();
 
-            var (hasErrors, hashPassword, errors) = passwordService.Create(plainPassword);
+            var (hashPassword, errors) = passwordService.Create(plainPassword);
 
-            Assert.IsTrue(hasErrors);
-            Assert.IsTrue(errors!.Contains(PasswordResult.RequireUppercase));
+            Assert.IsTrue(errors.Any());
+            Assert.IsTrue(errors.Contains(PasswordErrorResult.RequireUppercase));
         }
 
         #endregion RequireUppercase
