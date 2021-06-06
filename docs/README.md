@@ -229,6 +229,8 @@ public static class JsonWebTokenServiceCollectionExtensions
 ```cs
 public interface IPasswordService
 {
+    string? CreateRandom();
+    
     (bool hasErrors, string? hashPassword, List<PasswordResult>? errors) Create(string? plainPassword);
 
     bool Verify(string? plainPassword, string hashPassword);

@@ -3,6 +3,7 @@ using Kitpymes.Core.Shared;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.IO;
 using System.Linq;
 
@@ -182,5 +183,51 @@ namespace Kitypmes.Core.Security.Tests
         }
 
         #endregion RequireUppercase
+
+        #region CreateRandom
+
+        [TestMethod]
+        public void CreateRandom_WithLoadSettings_Returns_PlainPassword_Value()
+        {
+            var expectedMinLength = 7;
+
+            Action<PasswordOptions> options = x => x.WithEnabled()
+                .WithRequireDigit()
+                .WithRequiredMinLength(expectedMinLength)
+                .WithRequiredUniqueChars()
+                .WithRequireEspecialCharacters()
+                .WithRequireLowercase()
+                .WithRequireUppercase();
+
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(options)).GetPassword();
+
+            var plainPassword = passwordService.CreateRandom();
+
+            Assert.IsNotNull(plainPassword);
+            Assert.AreEqual(expectedMinLength, plainPassword?.Length);
+        }
+
+        [TestMethod]
+        public void CreateRandom_WithCustomSettings_Returns_PlainPassword_Value()
+        {
+            var expectedMinLength = 7;
+
+            Action<PasswordOptions> options = x => x.WithEnabled()
+                .WithRequireDigit()
+                .WithRequiredMinLength(expectedMinLength)
+                .WithRequiredUniqueChars()
+                .WithRequireEspecialCharacters()
+                .WithRequireLowercase()
+                .WithRequireUppercase();
+
+            var passwordService = new PasswordService(options.ToConfigureOrDefault().PasswordSettings);
+
+            var plainPassword = passwordService.CreateRandom();
+
+            Assert.IsNotNull(plainPassword);
+            Assert.AreEqual(expectedMinLength, plainPassword?.Length);
+        }
+
+        #endregion CreateRandom
     }
 }

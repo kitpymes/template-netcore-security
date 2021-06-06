@@ -111,7 +111,7 @@ namespace Kitpymes.Core.Security
                 if (environment.IsDevelopment())
                 {
                     result.Message = exception.ToFullMessage();
-                    result.ExceptionType = exceptionTypeName;
+                    result.Exception = exceptionTypeName;
                     result.Details = details;
                 }
                 else

@@ -23,3 +23,5 @@ dotnet_diagnostic.SA1124.severity = none
 
 # CA1716: Los identificadores no deben coincidir con palabras clave
 dotnet_diagnostic.CA1716.severity = none
+
+

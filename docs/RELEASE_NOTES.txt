@@ -1,3 +1,6 @@
+# v.1.0.2
+- Se actualizan librerías comunes y el servicio "PasswordService".
+
 # v.1.0.1
 - Se actualizan los tipos de autenticación y librerías del proyecto.
 

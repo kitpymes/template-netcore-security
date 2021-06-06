@@ -12,6 +12,7 @@ namespace Kitpymes.Core.Security
     using System.Linq;
     using System.Runtime.CompilerServices;
     using System.Security.Cryptography;
+    using System.Text;
     using Kitpymes.Core.Shared;
     using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
@@ -35,11 +36,88 @@ namespace Kitpymes.Core.Security
         /// <param name="settings">Configuración de la contraseña.</param>
         public PasswordService(PasswordSettings settings) => PasswordSettings = settings;
 
-        private PasswordSettings PasswordSettings { get; }
+        private PasswordSettings PasswordSettings { get; set; }
+
+        /// <inheritdoc/>
+        public string? CreateRandom()
+        {
+            if (PasswordSettings.Enabled == false)
+            {
+                Shared.Util.Check.Throw($"{nameof(PasswordSettings)} is not enabled.");
+            }
+
+            var passwordBuilder = new StringBuilder();
+
+            if (PasswordSettings.RequireDigit.HasValue && PasswordSettings.RequireDigit.Value == true)
+            {
+                var digit = "0123456789".ToRandom(1);
+
+                passwordBuilder.Append(digit);
+            }
+
+            if (PasswordSettings.RequireEspecialChars.HasValue && PasswordSettings.RequireEspecialChars.Value)
+            {
+                var especialChars = "@#%&*?¿_-+".ToRandom(1);
+
+                passwordBuilder.Append(especialChars);
+            }
+
+            if (PasswordSettings.RequireLowercase.HasValue && PasswordSettings.RequireLowercase.Value)
+            {
+                var lowercase = "abcdefghijklmnopqrstuvw".ToRandom(1);
+
+                passwordBuilder.Append(lowercase);
+            }
+
+            if (PasswordSettings.RequireUppercase.HasValue && PasswordSettings.RequireUppercase.Value)
+            {
+                var uppercase = "ABCDEFGHJKLMNOPQRSTUVW".ToRandom(1);
+
+                passwordBuilder.Append(uppercase);
+            }
+
+            if (PasswordSettings.RequiredUniqueChars.HasValue && PasswordSettings.RequiredUniqueChars.Value)
+            {
+                var uniqueChars = "xyzXYZ".ToRandom(1);
+
+                passwordBuilder.Append(uniqueChars);
+            }
+
+            if (PasswordSettings.RequiredMinLength.HasValue)
+            {
+                var requiredMinLength = PasswordSettings.RequiredMinLength.Value;
+
+                string? minLength;
+
+                if (requiredMinLength > passwordBuilder.Length)
+                {
+                    var length = requiredMinLength - passwordBuilder.Length;
+
+                    minLength = "0123456789ABCDEFGHJKLMNOPQRSTUVWabcdefghijklmnopqrstuvw".ToRandom(length);
+                }
+                else
+                {
+                    minLength = passwordBuilder.ToString();
+                }
+
+                passwordBuilder.Append(minLength);
+            }
+
+            var plainPassword = passwordBuilder.ToString();
+
+            var errors = Validate(plainPassword);
+
+            return errors.Count > 0 ? null : plainPassword;
+        }
 
         /// <inheritdoc/>
         public (string? hashPassword, List<PasswordErrorResult> errors) Create(string? plainPassword)
         {
+            if (PasswordSettings.Enabled == false)
+            {
+                Shared.Util.Check.Throw($"{nameof(PasswordSettings)} is not enabled.");
+            }
+
             var errors = Validate(plainPassword);
 
             var hashPassword = errors.Count > 0 ? null : CreatePassword(plainPassword!);

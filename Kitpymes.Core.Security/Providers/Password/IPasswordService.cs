@@ -7,6 +7,7 @@
 
 namespace Kitpymes.Core.Security
 {
+    using System;
     using System.Collections.Generic;
 
     /*
@@ -23,6 +24,12 @@ namespace Kitpymes.Core.Security
     /// </remarks>
     public interface IPasswordService
     {
+        /// <summary>
+        /// Crea una contraseña plana random.
+        /// </summary>
+        /// <returns>string | null: si no se pudo crear la contraseña.</returns>
+        string? CreateRandom();
+
         /// <summary>
         /// Crea una contraseña.
         /// </summary>
