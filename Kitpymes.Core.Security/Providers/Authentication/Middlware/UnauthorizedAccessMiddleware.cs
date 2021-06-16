@@ -97,7 +97,7 @@ namespace Kitpymes.Core.Security
 
                 var exceptionTypeName = exception.GetType().Name;
 
-                var detailsOptionalData = new Dictionary<string, IList<string>>();
+                var detailsOptionalData = new Dictionary<string, IEnumerable<string>>();
 
                 if (!RequestBody.ToIsNullOrEmpty())
                 {
@@ -119,7 +119,7 @@ namespace Kitpymes.Core.Security
                     Logger.LogError(exception.ToFullMessage(), details);
                 }
 
-                var headers = new Dictionary<string, IList<string>>();
+                var headers = new Dictionary<string, IEnumerable<string>>();
                 headers.AddOrUpdate(nameof(Exception), exceptionTypeName);
 
                 await httpContext.Response.ToResultAsync(

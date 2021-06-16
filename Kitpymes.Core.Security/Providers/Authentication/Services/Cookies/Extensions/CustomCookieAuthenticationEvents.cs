@@ -91,7 +91,7 @@ namespace Kitpymes.Core.Security
         {
             var username = httpContextAccessor.HttpContext?.User?.Identity?.Name;
 
-            var optionalData = new Dictionary<string, IList<string>>();
+            var optionalData = new Dictionary<string, IEnumerable<string>>();
             optionalData.AddOrUpdate("AccessDeniedDateTime", DateTime.Now.ToLongDateString());
 
             if (!username.ToIsNullOrEmpty())

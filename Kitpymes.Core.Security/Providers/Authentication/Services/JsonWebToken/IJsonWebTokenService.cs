@@ -32,7 +32,7 @@ namespace Kitpymes.Core.Security
         /// <param name="claims">Lista de información a codificar.</param>
         /// <param name="headers">Lista de valores a codificar.</param>
         /// <returns>CreateJsonWebTokenResult | InternalServerError: si surge algún error inesperado.</returns>
-        CreateJsonWebTokenResult Create(IEnumerable<Claim> claims, IDictionary<string, IList<string>>? headers = null);
+        CreateJsonWebTokenResult Create(IEnumerable<Claim> claims, IDictionary<string, IEnumerable<string>>? headers = null);
 
         /// <summary>
         /// Decodifica el token de sesión.
@@ -47,7 +47,7 @@ namespace Kitpymes.Core.Security
         /// <param name="claims">Lista de información a codificar.</param>
         /// <param name="headers">Lista de valores a codificar.</param>
         /// <returns>CreateJsonWebTokenResult | InternalServerError: si surge algún error inesperado.</returns>
-        Task<CreateJsonWebTokenResult> CreateAsync(IEnumerable<Claim> claims, IDictionary<string, IList<string>>? headers = null);
+        Task<CreateJsonWebTokenResult> CreateAsync(IEnumerable<Claim> claims, IDictionary<string, IEnumerable<string>>? headers = null);
 
         /// <summary>
         /// Decodifica el token de sesión.

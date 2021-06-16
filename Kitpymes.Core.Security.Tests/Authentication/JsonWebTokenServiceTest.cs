@@ -200,7 +200,7 @@ namespace Kitypmes.Core.Security.Tests
                             .WithIssuer(issuerExpected))))
                                 .GetAuthJsonWebToken();
 
-            var headers = new Dictionary<string, IList<string>>();
+            var headers = new Dictionary<string, IEnumerable<string>>();
             headers.AddOrUpdate(nameof(userExpected.Email), userExpected.Email);
 
             var createResult = _jsonWebTokenService.Create(
@@ -446,7 +446,7 @@ namespace Kitypmes.Core.Security.Tests
             })))
             .GetAuthJsonWebToken();
 
-            var headers = new Dictionary<string, IList<string>>();
+            var headers = new Dictionary<string, IEnumerable<string>>();
             headers.AddOrUpdate(nameof(userExpected.Email), userExpected.Email);
 
             var createResult = _jsonWebTokenService.Create(
@@ -533,7 +533,7 @@ namespace Kitypmes.Core.Security.Tests
 
             _jsonWebTokenService = services.LoadSecurity(sec => sec.WithAuthentication(auth => auth.WithJsonWebToken(settings))).GetAuthJsonWebToken();
 
-            var headers = new Dictionary<string, IList<string>>();
+            var headers = new Dictionary<string, IEnumerable<string>>();
             headers.AddOrUpdate(nameof(userExpected.Email), userExpected.Email);
 
             var createResult = _jsonWebTokenService.Create(

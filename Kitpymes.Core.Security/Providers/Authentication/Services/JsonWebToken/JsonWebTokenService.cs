@@ -42,7 +42,7 @@ namespace Kitpymes.Core.Security
         private JsonWebTokenSettings JsonWebTokenSettings { get; }
 
         /// <inheritdoc/>
-        public CreateJsonWebTokenResult Create(IEnumerable<Claim> claims, IDictionary<string, IList<string>>? headers = null)
+        public CreateJsonWebTokenResult Create(IEnumerable<Claim> claims, IDictionary<string, IEnumerable<string>>? headers = null)
         {
             var errors = new List<string>();
 
@@ -121,7 +121,7 @@ namespace Kitpymes.Core.Security
         }
 
         /// <inheritdoc/>
-        public async Task<CreateJsonWebTokenResult> CreateAsync(IEnumerable<Claim> claims, IDictionary<string, IList<string>>? headers = null)
+        public async Task<CreateJsonWebTokenResult> CreateAsync(IEnumerable<Claim> claims, IDictionary<string, IEnumerable<string>>? headers = null)
         => await Task.FromResult(Create(claims, headers)).ConfigureAwait(false);
 
         /// <inheritdoc/>
