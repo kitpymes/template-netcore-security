@@ -145,11 +145,11 @@ namespace Kitypmes.Core.Security.Tests
                 .ToConfiguration(directoryPath, (jsonFileName, true, true))
                 .ToService<IConfiguration>();
 
-            var settings = configuration
+            var settings = configuration?
                 .GetSection(nameof(SecuritySettings))
                 .GetSection(nameof(EncryptorSettings)).Get<EncryptorSettings>();
 
-            _encryptorService = services.LoadSecurity(sec => sec.WithEncryptor(settings)).GetEncryptor();
+            _encryptorService = services.LoadSecurity(sec => sec.WithEncryptor(settings!)).GetEncryptor();
 
             var expected = Guid.NewGuid().ToString();
 
@@ -170,11 +170,11 @@ namespace Kitypmes.Core.Security.Tests
                 .ToConfiguration(directoryPath, (jsonFileName, true, true))
                 .ToService<IConfiguration>();
 
-            var settings = configuration
+            var settings = configuration?
                 .GetSection(nameof(SecuritySettings))
                 .GetSection(nameof(EncryptorSettings)).Get<EncryptorSettings>();
 
-            _encryptorService = services.LoadSecurity(sec => sec.WithEncryptor(settings)).GetEncryptor();
+            _encryptorService = services.LoadSecurity(sec => sec.WithEncryptor(settings!)).GetEncryptor();
 
             var expected = new FakeUser
             {

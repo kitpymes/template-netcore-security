@@ -66,7 +66,7 @@ namespace Kitpymes.Core.Security
                 var enviroment = services.ToEnvironment();
 
                 services
-                    .AddAuthentication(config.AuthenticateScheme)
+                    .AddAuthentication(config.AuthenticateScheme!)
                     .AddCookie(options =>
                     {
                         // limita la cookie a HTTPS. Recomiendo configurar esto en Siempre en prod. Déjelo configurado en Ninguno en local.
@@ -95,7 +95,7 @@ namespace Kitpymes.Core.Security
 
                         options.AccessDeniedPath = config.AccessDeniedPath;
 
-                        options.ReturnUrlParameter = config.ReturnUrlParameter;
+                        options.ReturnUrlParameter = config.ReturnUrlParameter!;
 
                         options.SlidingExpiration = config.SlidingExpiration!.Value;
 
@@ -112,7 +112,7 @@ namespace Kitpymes.Core.Security
                 var httpContextAccessor = services.ToService<IHttpContextAccessor>();
 
                 // services.AddScoped<CustomCookieAuthenticationEvents>();
-                services.TryAddSingleton<ICookiesService>(new CookiesService(config, authenticationService, httpContextAccessor));
+                services.TryAddSingleton<ICookiesService>(new CookiesService(config, authenticationService!, httpContextAccessor!));
             }
 
             return services;

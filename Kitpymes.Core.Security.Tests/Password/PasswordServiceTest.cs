@@ -68,12 +68,12 @@ namespace Kitypmes.Core.Security.Tests
                 .ToConfiguration(directoryPath, (jsonFileName, true, true))
                 .ToService<IConfiguration>();
 
-            var passwordSettings = configuration
+            var passwordSettings = configuration?
                 .GetSection(nameof(SecuritySettings))
                 .GetSection(nameof(PasswordSettings))
                 .Get<PasswordSettings>();
 
-            passwordService = services.LoadSecurity(sec => sec.WithPassword(passwordSettings)).GetPassword();
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(passwordSettings!)).GetPassword();
 
             var (hashPassword, errors) = passwordService.Create(plainPassword);
 
@@ -191,15 +191,18 @@ namespace Kitypmes.Core.Security.Tests
         {
             var expectedMinLength = 7;
 
-            Action<PasswordOptions> options = x => x.WithEnabled()
-                .WithRequireDigit()
-                .WithRequiredMinLength(expectedMinLength)
-                .WithRequiredUniqueChars()
-                .WithRequireEspecialCharacters()
-                .WithRequireLowercase()
-                .WithRequireUppercase();
+            var directoryPath = Directory.GetCurrentDirectory() + "/Fakes";
+            var jsonFileName = "FakeAppSettings";
 
-            passwordService = services.LoadSecurity(sec => sec.WithPassword(options)).GetPassword();
+            var configuration = services
+                .ToConfiguration(directoryPath, (jsonFileName, true, true))
+                .ToService<IConfiguration>();
+
+            var settings = configuration?
+                .GetSection(nameof(SecuritySettings))
+                .GetSection(nameof(PasswordSettings)).Get<PasswordSettings>();
+
+            passwordService = services.LoadSecurity(sec => sec.WithPassword(settings!)).GetPassword();
 
             var plainPassword = passwordService.CreateRandom();
 

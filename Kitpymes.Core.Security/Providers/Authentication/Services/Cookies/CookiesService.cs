@@ -53,6 +53,11 @@ namespace Kitpymes.Core.Security
         /// <inheritdoc/>
         public async Task SignInAsync(IEnumerable<Claim> claims, Action<AuthenticationProperties>? options = null)
         {
+            if (HttpContextAccessor.HttpContext is null)
+            {
+                throw new ArgumentNullException(nameof(HttpContextAccessor.HttpContext));
+            }
+
             var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookiesSettings.AuthenticateScheme));
 
             AuthenticationProperties = options.ToConfigureOrDefault();
@@ -67,9 +72,16 @@ namespace Kitpymes.Core.Security
 
         /// <inheritdoc/>
         public async Task SignOutAsync()
-        => await AuthenticationService.SignOutAsync(
-            HttpContextAccessor.HttpContext,
-            CookiesSettings.AuthenticateScheme,
-            AuthenticationProperties);
+        {
+            if (HttpContextAccessor.HttpContext is null)
+            {
+                throw new ArgumentNullException(nameof(HttpContextAccessor.HttpContext));
+            }
+
+            await AuthenticationService.SignOutAsync(
+                HttpContextAccessor.HttpContext,
+                CookiesSettings.AuthenticateScheme,
+                AuthenticationProperties);
+        }
     }
 }

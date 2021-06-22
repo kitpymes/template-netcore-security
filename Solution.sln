@@ -36,6 +36,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{B8F951C6
 		_config.yml = _config.yml
 		docs\props\Common.Build.props = docs\props\Common.Build.props
 		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
+		global.json = global.json
 		docs\props\Pack.Build.props = docs\props\Pack.Build.props
 		docs\props\tests.runsettings = docs\props\tests.runsettings
 	EndProjectSection

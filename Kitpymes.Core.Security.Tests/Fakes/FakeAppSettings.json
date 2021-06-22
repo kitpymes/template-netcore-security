@@ -7,7 +7,7 @@
             "RequireUppercase": null, // (bool) Default: false
             "RequireEspecialChars": null, // (bool) Default: false
             "RequiredUniqueChars": null, // (bool) Default: false
-            "RequiredMinLength": 4, // (int) Default: 6
+            "RequiredMinLength": 7, // (int) Default: 6
             "EncryptionSettings": {
                 "FormatMarker": null, // (byte) Default: 0xC0
                 "IterCount": null, // (int) Default: 50000

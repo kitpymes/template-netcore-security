@@ -66,9 +66,13 @@ namespace Kitpymes.Core.Security
                 {
                     var environment = services.ToEnvironment();
 
-                    x.SetApplicationName(config.ApplicationName)
-                     .ProtectKeysWithDpapi()
-                     .SetDefaultKeyLifetime(TimeSpan.FromDays(config.KeyLifetimeFromDays!.Value));
+                    x.SetApplicationName(config.ApplicationName!);
+
+#pragma warning disable CA1416 // Validar la compatibilidad de la plataforma
+                    x.ProtectKeysWithDpapi();
+#pragma warning restore CA1416 // Validar la compatibilidad de la plataforma
+
+                    x.SetDefaultKeyLifetime(TimeSpan.FromDays(config.KeyLifetimeFromDays!.Value));
 
                     if (!config.PersistKeysToFileSystem.ToIsNullOrEmpty())
                     {

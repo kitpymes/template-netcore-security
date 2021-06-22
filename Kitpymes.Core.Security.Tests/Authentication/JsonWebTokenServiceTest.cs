@@ -102,7 +102,7 @@ namespace Kitypmes.Core.Security.Tests
                 Assert.AreEqual(expected.Id, actualToDeserialize?.Id);
                 Assert.AreEqual(expected.Email, actualToDeserialize?.Email);
                 Assert.AreEqual(expected.Role, actualToDeserialize?.Role);
-                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions.ToList());
+                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions?.ToList());
             }
         }
 
@@ -155,7 +155,7 @@ namespace Kitypmes.Core.Security.Tests
                 Assert.AreEqual(expected.Id, actualToDeserialize?.Id);
                 Assert.AreEqual(expected.Email, actualToDeserialize?.Email);
                 Assert.AreEqual(expected.Role, actualToDeserialize?.Role);
-                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions.ToList());
+                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions?.ToList());
             }
 
             if (getResult.Header!.TryGetValue(JwtRegisteredClaimNames.Jti, out var jti))
@@ -218,7 +218,7 @@ namespace Kitypmes.Core.Security.Tests
             Assert.IsNotNull(getResult);
 
             Assert.AreEqual(issuerExpected, getResult.Issuer);
-            Assert.IsTrue(getResult.Audiences.Contains(audienceExpected));
+            Assert.IsTrue(getResult.Audiences?.Contains(audienceExpected));
 
             // Claims
 
@@ -236,24 +236,24 @@ namespace Kitypmes.Core.Security.Tests
 
             // Payload
 
-            var payloadUserActual = getResult.Payload.First(x => x.Key == ClaimTypes.UserData).Value;
+            var payloadUserActual = getResult.Payload?.First(x => x.Key == ClaimTypes.UserData).Value;
             Assert.AreEqual(userExpected.ToSerialize(), payloadUserActual);
 
-            var payloadJtiActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Jti).Value;
+            var payloadJtiActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Jti).Value;
             Assert.AreEqual(jtiExpected, payloadJtiActual);
 
-            var payloadIssActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Iss).Value;
+            var payloadIssActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Iss).Value;
             Assert.AreEqual(issuerExpected, payloadIssActual);
 
-            var payloadAudActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
+            var payloadAudActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
             Assert.AreEqual(audienceExpected, payloadAudActual);
 
             // Header
 
-            var headerTypActual = getResult.Header.First(x => x.Key == JwtRegisteredClaimNames.Typ).Value;
+            var headerTypActual = getResult.Header?.First(x => x.Key == JwtRegisteredClaimNames.Typ).Value;
             Assert.AreEqual(typeExpected, headerTypActual);
 
-            var headerEmailActual = getResult.Header.First(x => x.Key == nameof(userExpected.Email)).Value;
+            var headerEmailActual = getResult.Header?.First(x => x.Key == nameof(userExpected.Email)).Value;
             Assert.IsNotNull(headerEmailActual);
         }
 
@@ -347,7 +347,7 @@ namespace Kitypmes.Core.Security.Tests
                 Assert.AreEqual(expected.Id, actualToDeserialize?.Id);
                 Assert.AreEqual(expected.Email, actualToDeserialize?.Email);
                 Assert.AreEqual(expected.Role, actualToDeserialize?.Role);
-                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions.ToList());
+                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions?.ToList());
             }
         }
 
@@ -402,7 +402,7 @@ namespace Kitypmes.Core.Security.Tests
                 Assert.AreEqual(expected.Id, actualToDeserialize?.Id);
                 Assert.AreEqual(expected.Email, actualToDeserialize?.Email);
                 Assert.AreEqual(expected.Role, actualToDeserialize?.Role);
-                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions.ToList());
+                CollectionAssert.AreEqual(expected.Permissions.ToList(), actualToDeserialize?.Permissions?.ToList());
             }
 
             if (getResult.Header!.TryGetValue(JwtRegisteredClaimNames.Jti, out var jti))
@@ -464,7 +464,7 @@ namespace Kitypmes.Core.Security.Tests
             Assert.IsNotNull(getResult);
 
             Assert.AreEqual(issuerExpected, getResult.Issuer);
-            Assert.IsTrue(getResult.Audiences.Contains(audienceExpected));
+            Assert.IsTrue(getResult.Audiences?.Contains(audienceExpected));
 
             // Claims
 
@@ -482,24 +482,24 @@ namespace Kitypmes.Core.Security.Tests
 
             // Payload
 
-            var payloadUserActual = getResult.Payload.First(x => x.Key == ClaimTypes.UserData).Value;
+            var payloadUserActual = getResult.Payload?.First(x => x.Key == ClaimTypes.UserData).Value;
             Assert.AreEqual(userExpected.ToSerialize(), payloadUserActual);
 
-            var payloadJtiActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Jti).Value;
+            var payloadJtiActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Jti).Value;
             Assert.AreEqual(jtiExpected, payloadJtiActual);
 
-            var payloadIssActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Iss).Value;
+            var payloadIssActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Iss).Value;
             Assert.AreEqual(issuerExpected, payloadIssActual);
 
-            var payloadAudActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
+            var payloadAudActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
             Assert.AreEqual(audienceExpected, payloadAudActual);
 
             // Header
 
-            var headerTypActual = getResult.Header.First(x => x.Key == JwtRegisteredClaimNames.Typ).Value;
+            var headerTypActual = getResult.Header?.First(x => x.Key == JwtRegisteredClaimNames.Typ).Value;
             Assert.AreEqual(typeExpected, headerTypActual);
 
-            var headerEmailActual = getResult.Header.First(x => x.Key == nameof(userExpected.Email)).Value;
+            var headerEmailActual = getResult.Header?.First(x => x.Key == nameof(userExpected.Email)).Value;
             Assert.IsNotNull(headerEmailActual);
         }
 
@@ -526,12 +526,12 @@ namespace Kitypmes.Core.Security.Tests
                 .ToConfiguration(directoryPath, (jsonFileName, true, true))
                 .ToService<IConfiguration>();
 
-            var settings = configuration
+            var settings = configuration?
                 .GetSection(nameof(SecuritySettings))
                 .GetSection(nameof(AuthenticationSettings))
                 .GetSection(nameof(JsonWebTokenSettings)).Get<JsonWebTokenSettings>();
 
-            _jsonWebTokenService = services.LoadSecurity(sec => sec.WithAuthentication(auth => auth.WithJsonWebToken(settings))).GetAuthJsonWebToken();
+            _jsonWebTokenService = services.LoadSecurity(sec => sec.WithAuthentication(auth => auth.WithJsonWebToken(settings!))).GetAuthJsonWebToken();
 
             var headers = new Dictionary<string, IEnumerable<string>>();
             headers.AddOrUpdate(nameof(userExpected.Email), userExpected.Email);
@@ -558,25 +558,25 @@ namespace Kitypmes.Core.Security.Tests
             Assert.AreEqual(getResult.Issuer, claimIssActual);
 
             var claimAudActual = getResult.Claims.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
-            Assert.IsTrue(getResult.Audiences.Contains(claimAudActual));
+            Assert.IsTrue(getResult.Audiences?.Contains(claimAudActual));
 
             // Payload
 
-            var payloadUserActual = getResult.Payload.First(x => x.Key == ClaimTypes.UserData).Value;
+            var payloadUserActual = getResult.Payload?.First(x => x.Key == ClaimTypes.UserData).Value;
             Assert.AreEqual(userExpected.ToSerialize(), payloadUserActual);
 
-            var payloadIssActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Iss).Value;
+            var payloadIssActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Iss).Value;
             Assert.AreEqual(getResult.Issuer, payloadIssActual);
 
-            var payloadAudActual = getResult.Payload.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
-            Assert.IsTrue(getResult.Audiences.Contains(payloadAudActual));
+            var payloadAudActual = getResult.Payload?.First(x => x.Key == JwtRegisteredClaimNames.Aud).Value;
+            Assert.IsTrue(getResult.Audiences?.Contains(payloadAudActual));
 
             // Header
 
-            var headerTypActual = getResult.Header.First(x => x.Key == JwtRegisteredClaimNames.Typ).Value;
+            var headerTypActual = getResult.Header?.First(x => x.Key == JwtRegisteredClaimNames.Typ).Value;
             Assert.AreEqual(typeExpected, headerTypActual);
 
-            var headerEmailActual = getResult.Header.First(x => x.Key == nameof(userExpected.Email)).Value;
+            var headerEmailActual = getResult.Header?.First(x => x.Key == nameof(userExpected.Email)).Value;
             Assert.IsNotNull(headerEmailActual);
         }
 

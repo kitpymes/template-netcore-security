@@ -64,9 +64,9 @@ namespace Kitpymes.Core.Security
                 if (httpContext != null)
                 {
                     await ReadRequestBodyAsync(httpContext).ConfigureAwait(false);
-                }
 
-                await RequestDelegate(httpContext).ConfigureAwait(false);
+                    await RequestDelegate(httpContext).ConfigureAwait(false);
+                }
             }
             catch (Exception exception)
             {

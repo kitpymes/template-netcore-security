@@ -29,14 +29,14 @@ namespace Kitpymes.Core.Security
         /// <param name="value">Valor a encriptar.</param>
         /// <param name="lifetime">Duración.</param>
         /// <returns>string | ApplicationException: si el valor es nulo o vacio.</returns>
-        string Encrypt(string? value, TimeSpan? lifetime = null);
+        string Encrypt(string value, TimeSpan? lifetime = null);
 
         /// <summary>
         /// Desencripta un cadena.
         /// </summary>
         /// <param name="value">Valor a desencriptar.</param>
         /// <returns>string | ApplicationException: si el valor es nulo o vacio.</returns>
-        string Decrypt(string? value);
+        string Decrypt(string value);
 
         /// <summary>
         /// Encripta un objeto.
@@ -52,7 +52,7 @@ namespace Kitpymes.Core.Security
         /// </summary>
         /// <param name="value">Objeto a desencriptar.</param>
         /// <returns>string | ApplicationException: si el objeto es nulo.</returns>
-        T Decrypt<T>(string? value)
-            where T : class, new();
+        TResult? Decrypt<TResult>(string value)
+            where TResult : class, new();
     }
 }

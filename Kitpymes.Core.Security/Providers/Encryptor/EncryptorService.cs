@@ -32,31 +32,67 @@ namespace Kitpymes.Core.Security
         /// </summary>
         /// <param name="provider">Proveedor de protección.</param>
         public EncryptorService(IDataProtectionProvider provider)
-        => _protector = provider.ToIsNullOrEmptyThrow(nameof(provider)).CreateProtector(typeof(EncryptorService).Name);
+        {
+            if (provider is null)
+            {
+                throw new ArgumentNullException(nameof(provider));
+            }
+
+            _protector = provider.CreateProtector(typeof(EncryptorService).Name);
+        }
 
         /// <inheritdoc/>
-        public string Encrypt(string? value, TimeSpan? lifetime = null)
+        public string Encrypt(string value, TimeSpan? lifetime = null)
         {
+            if (_protector is null)
+            {
+                throw new ArgumentNullException(nameof(_protector));
+            }
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
             if (lifetime.HasValue)
             {
                 return _protector.ToTimeLimitedDataProtector().Protect(value, lifetime.Value);
             }
 
-            return _protector.ToIsNullOrEmptyThrow(nameof(_protector)).Protect(value.ToIsNullOrEmptyThrow(nameof(value)));
+            return _protector.Protect(value);
         }
 
         /// <inheritdoc/>
-        public string Decrypt(string? value)
-        => _protector.ToIsNullOrEmptyThrow(nameof(_protector)).Unprotect(value.ToIsNullOrEmptyThrow(nameof(value)));
+        public string Decrypt(string value)
+        {
+            if (_protector is null)
+            {
+                throw new ArgumentNullException(nameof(_protector));
+            }
+
+            if (string.IsNullOrWhiteSpace(value))
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return _protector.Unprotect(value);
+        }
 
         /// <inheritdoc/>
         public string Encrypt<T>(T value, TimeSpan? lifetime = null)
             where T : class
-        => Encrypt(value.ToIsNullOrEmptyThrow(nameof(value)).ToSerialize(), lifetime);
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(nameof(value));
+            }
+
+            return Encrypt(value.ToSerialize(), lifetime);
+        }
 
         /// <inheritdoc/>
-        public T Decrypt<T>(string? value)
-            where T : class, new()
-        => Decrypt(value.ToIsNullOrEmptyThrow(nameof(value))).ToDeserialize<T>();
+        public TResult? Decrypt<TResult>(string value)
+            where TResult : class, new()
+        => Decrypt(value).ToDeserialize<TResult>();
     }
 }
