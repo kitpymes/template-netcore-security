@@ -3,13 +3,15 @@
   <Import Project="$(SolutionDir)docs/props/Common.Build.props" Condition="Exists('$(SolutionDir)docs/props/Common.Build.props')" />
   <Import Project="$(SolutionDir)docs/props/Pack.Build.props" Condition="Exists('$(SolutionDir)docs/props/Pack.Build.props')" />
 
+  <!-- Microsoft PackageReference -->
   <ItemGroup>
-    <PackageReference Include="Kitpymes.Core.Shared" Version="1.2.2" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.7" />
-    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="5.0.7" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.DataProtection.Abstractions" Version="7.0.1" />
   </ItemGroup>
 
+  <!-- Kitpymes PackageReference -->
+  <ItemGroup>
+    <PackageReference Include="Kitpymes.Core.Shared" Version="1.2.5" />
+  </ItemGroup>
+  
 </Project>

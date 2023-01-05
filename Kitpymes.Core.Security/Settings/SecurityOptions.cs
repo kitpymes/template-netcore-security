@@ -41,9 +41,9 @@ namespace Kitpymes.Core.Security
         {
             var settings = configuration?.GetSection(nameof(SecuritySettings))?.GetSection(nameof(EncryptorSettings))?.Get<EncryptorSettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var securityOptions = WithEncryptor(settings);
 
-            return WithEncryptor(config);
+            return securityOptions;
         }
 
         /// <summary>
@@ -52,16 +52,22 @@ namespace Kitpymes.Core.Security
         /// <param name="options">Configuración del servicio.</param>
         /// <returns>SecurityOptions | ApplicationException: si EncryptorSettings es nulo.</returns>
         public SecurityOptions WithEncryptor(Action<EncryptorOptions> options)
-        => WithEncryptor(options.ToConfigureOrDefault().EncryptorSettings);
+        {
+            var settings = options.ToConfigureOrDefault().EncryptorSettings;
+
+            var securityOptions = WithEncryptor(settings);
+
+            return securityOptions;
+        }
 
         /// <summary>
         /// Indica si se utilizara el servicio de encriptación.
         /// </summary>
         /// <param name="settings">Configuración del servicio.</param>
         /// <returns>SecurityOptions | ApplicationException: si EncryptorSettings es nulo.</returns>
-        public SecurityOptions WithEncryptor(EncryptorSettings settings)
+        public SecurityOptions WithEncryptor(EncryptorSettings? settings)
         {
-            SecuritySettings.EncryptorSettings = settings;
+            SecuritySettings.EncryptorSettings = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             return this;
         }
@@ -79,9 +85,9 @@ namespace Kitpymes.Core.Security
         {
             var settings = configuration?.GetSection(nameof(SecuritySettings))?.GetSection(nameof(AuthenticationSettings))?.Get<AuthenticationSettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var securityOptions = WithAuthentication(settings);
 
-            return WithAuthentication(config);
+            return securityOptions;
         }
 
         /// <summary>
@@ -90,16 +96,22 @@ namespace Kitpymes.Core.Security
         /// <param name="options">Configuración del servicio.</param>
         /// <returns>SecurityOptions | ApplicationException: si AuthenticationSettings es nulo.</returns>
         public SecurityOptions WithAuthentication(Action<AuthenticationOptions> options)
-        => WithAuthentication(options.ToConfigureOrDefault().AuthenticationSettings);
+        {
+            var settings = options.ToConfigureOrDefault().AuthenticationSettings;
+
+            var securityOptions = WithAuthentication(settings);
+
+            return securityOptions;
+        }
 
         /// <summary>
         /// Indica si se utilizara el servicio de autenticación.
         /// </summary>
         /// <param name="settings">Configuración del servicio.</param>
         /// <returns>SecurityOptions | ApplicationException: si AuthenticationSettings es nulo.</returns>
-        public SecurityOptions WithAuthentication(AuthenticationSettings settings)
+        public SecurityOptions WithAuthentication(AuthenticationSettings? settings)
         {
-            SecuritySettings.AuthenticationSettings = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            SecuritySettings.AuthenticationSettings = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             SecuritySettings.AuthenticationSettings.Enabled = true;
 
@@ -119,9 +131,9 @@ namespace Kitpymes.Core.Security
         {
             var settings = configuration?.GetSection(nameof(SecuritySettings))?.GetSection(nameof(PasswordSettings))?.Get<PasswordSettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var securityOptions = WithPassword(settings);
 
-            return WithPassword(config);
+            return securityOptions;
         }
 
         /// <summary>
@@ -130,16 +142,22 @@ namespace Kitpymes.Core.Security
         /// <param name="options">Configuración del servicio.</param>
         /// <returns>SecurityOptions | ApplicationException: si PasswordSettings es nulo.</returns>
         public SecurityOptions WithPassword(Action<PasswordOptions> options)
-        => WithPassword(options.ToConfigureOrDefault().PasswordSettings);
+        {
+            var settings = options.ToConfigureOrDefault().PasswordSettings;
+
+            var securityOptions = WithPassword(settings);
+
+            return securityOptions;
+        }
 
         /// <summary>
         /// Indica si se utilizara el servicio para las contraseña.
         /// </summary>
         /// <param name="settings">Configuración del servicio.</param>
         /// <returns>SecurityOptions | ApplicationException: si PasswordSettings es nulo.</returns>
-        public SecurityOptions WithPassword(PasswordSettings settings)
+        public SecurityOptions WithPassword(PasswordSettings? settings)
         {
-            SecuritySettings.PasswordSettings = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            SecuritySettings.PasswordSettings = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             return this;
         }

@@ -37,7 +37,7 @@ namespace Kitpymes.Core.Security
         /// <returns>IJsonWebTokenService | ApplicationException: si no se encuentra el servicio IJsonWebTokenProvider.</returns>
         public static IJsonWebTokenService GetAuthJsonWebToken(this IServiceCollection services)
         => services.ToService<IJsonWebTokenService>()
-            .ToIsNullOrEmptyThrow(Shared.Util.Messages.NotFound(nameof(IJsonWebTokenService)));
+            .ThrowIfNullOrEmpty(nameof(IJsonWebTokenService));
 
         /// <summary>
         /// Carga el servicio de autenticación por token.
@@ -60,13 +60,13 @@ namespace Kitpymes.Core.Security
             this IServiceCollection services,
             JsonWebTokenSettings settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty();
 
             if (config.Enabled.HasValue && config.Enabled.Value)
             {
-                var validPrivateKey = config.PrivateKey.ToIsNullOrEmptyThrow(nameof(config.PrivateKey));
+                var validPrivateKey = config.PrivateKey.ThrowIfNullOrEmpty(nameof(config.PrivateKey));
 
-                var validPublicKey = config.PublicKey.ToIsNullOrEmptyThrow(nameof(config.PublicKey));
+                var validPublicKey = config.PublicKey.ThrowIfNullOrEmpty(nameof(config.PublicKey));
 
 #if debug
                 Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;

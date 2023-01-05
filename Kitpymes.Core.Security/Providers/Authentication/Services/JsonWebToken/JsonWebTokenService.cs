@@ -36,8 +36,7 @@ namespace Kitpymes.Core.Security
         /// Inicializa una nueva instancia de la clase <see cref="JsonWebTokenService"/>.
         /// </summary>
         /// <param name="settings">Configuración para el token de sesión.</param>
-        public JsonWebTokenService(JsonWebTokenSettings settings)
-         => JsonWebTokenSettings = settings;
+        public JsonWebTokenService(JsonWebTokenSettings settings) => JsonWebTokenSettings = settings;
 
         private JsonWebTokenSettings JsonWebTokenSettings { get; }
 
@@ -46,20 +45,17 @@ namespace Kitpymes.Core.Security
         {
             var errors = new List<string>();
 
-            if (claims.ToIsNullOrAny())
+            if (claims.IsNullOrAny())
             {
                 errors.Add(UTIL.Messages.NullOrAny(nameof(claims)));
             }
 
-            if (JsonWebTokenSettings.PrivateKey.ToIsNullOrEmpty())
+            if (JsonWebTokenSettings.PrivateKey.IsNullOrEmpty())
             {
                 errors.Add(UTIL.Messages.NullOrEmpty(nameof(JsonWebTokenSettings.PrivateKey)));
             }
 
-            if (errors.Any())
-            {
-                UTIL.Check.Throw(errors.ToSerialize());
-            }
+            errors.ThrowIf(() => errors.Any(), errors.ToSerialize());
 
             var expires = DateTime.UtcNow.Add(new TimeSpan(
                JsonWebTokenSettings.Expire.Days!.Value,
@@ -99,7 +95,7 @@ namespace Kitpymes.Core.Security
         /// <inheritdoc/>
         public GetJsonWebTokenResult Get(string? token)
         {
-            token?.ToIsNullOrAnyThrow(nameof(token));
+            token.ThrowIfNullOrEmpty();
 
             var jwtSecurityToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
 

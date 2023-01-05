@@ -48,8 +48,8 @@ namespace Kitpymes.Core.Security
         /// <returns>JsonWebTokenOptions | ApplicationException: si authenticateScheme es nulo o vacio.</returns>
         public JsonWebTokenOptions WithScheme(string authenticateScheme = JsonWebTokenSettings.DefaultAuthenticateScheme, string challengeScheme = JsonWebTokenSettings.DefaultChallengeScheme)
         {
-            JsonWebTokenSettings.AuthenticateScheme = authenticateScheme.ToIsNullOrEmptyThrow(nameof(authenticateScheme));
-            JsonWebTokenSettings.ChallengeScheme = challengeScheme.ToIsNullOrEmptyThrow(nameof(challengeScheme));
+            JsonWebTokenSettings.AuthenticateScheme = authenticateScheme.ThrowIfNullOrEmpty();
+            JsonWebTokenSettings.ChallengeScheme = challengeScheme.ThrowIfNullOrEmpty();
 
             return this;
         }
@@ -127,10 +127,10 @@ namespace Kitpymes.Core.Security
         {
             JsonWebTokenSettings.Expire = new ExpireSettings
             {
-                Days = days.ToIsLessThrow(0, nameof(days)),
-                Hours = hours.ToIsLessThrow(0, nameof(hours)),
-                Minutes = minutes.ToIsLessThrow(0, nameof(minutes)),
-                Seconds = seconds.ToIsLessThrow(0, nameof(seconds)),
+                Days = days.ThrowIfLess(0, nameof(days)),
+                Hours = hours.ThrowIfLess(0, nameof(hours)),
+                Minutes = minutes.ThrowIfLess(0, nameof(minutes)),
+                Seconds = seconds.ThrowIfLess(0, nameof(seconds)),
             };
 
             return this;
@@ -143,7 +143,7 @@ namespace Kitpymes.Core.Security
         /// <returns>JsonWebTokenOptions | ApplicationException: si key es nulo o vacio.</returns>
         public JsonWebTokenOptions WithPublicKey(string publicKey)
         {
-            JsonWebTokenSettings.PublicKey = publicKey.ToIsNullOrEmptyThrow(nameof(publicKey));
+            JsonWebTokenSettings.PublicKey = publicKey.ThrowIfNullOrEmpty(nameof(publicKey));
 
             return this;
         }
@@ -155,7 +155,7 @@ namespace Kitpymes.Core.Security
         /// <returns>JsonWebTokenOptions | ApplicationException: si key es nulo o vacio.</returns>
         public JsonWebTokenOptions WithPrivateKey(string privateKey)
         {
-            JsonWebTokenSettings.PrivateKey = privateKey.ToIsNullOrEmptyThrow(nameof(privateKey));
+            JsonWebTokenSettings.PrivateKey = privateKey.ThrowIfNullOrEmpty(nameof(privateKey));
 
             return this;
         }
@@ -167,7 +167,7 @@ namespace Kitpymes.Core.Security
         /// <returns>JsonWebTokenOptions | ApplicationException: si issuer es nulo o vacio.</returns>
         public JsonWebTokenOptions WithIssuer(string issuer)
         {
-            JsonWebTokenSettings.Issuer = issuer.ToIsNullOrEmptyThrow(nameof(issuer));
+            JsonWebTokenSettings.Issuer = issuer.ThrowIfNullOrEmpty(nameof(issuer));
 
             return this;
         }
@@ -179,7 +179,7 @@ namespace Kitpymes.Core.Security
         /// <returns>JsonWebTokenOptions | ApplicationException: si audience es nulo o vacio.</returns>
         public JsonWebTokenOptions WithAudience(string audience)
         {
-            JsonWebTokenSettings.Audience = audience.ToIsNullOrEmptyThrow(nameof(audience));
+            JsonWebTokenSettings.Audience = audience.ThrowIfNullOrEmpty(nameof(audience));
 
             return this;
         }

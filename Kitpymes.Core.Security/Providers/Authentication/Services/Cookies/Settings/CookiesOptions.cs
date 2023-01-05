@@ -47,7 +47,7 @@ namespace Kitpymes.Core.Security
         /// <returns>JsonWebTokenOptions | ApplicationException: si authenticateScheme es nulo o vacio.</returns>
         public CookiesOptions WithScheme(string authenticateScheme = CookiesSettings.DefaultAuthenticateScheme)
         {
-            CookiesSettings.AuthenticateScheme = authenticateScheme.ToIsNullOrEmptyThrow(nameof(authenticateScheme));
+            CookiesSettings.AuthenticateScheme = authenticateScheme.ThrowIfNullOrEmpty(nameof(authenticateScheme));
 
             return this;
         }
@@ -59,7 +59,7 @@ namespace Kitpymes.Core.Security
         /// <returns>CookiesOptions | ApplicationException: si name es nulo o vacio.</returns>
         public CookiesOptions WithCookieName(string cookieName)
         {
-            CookiesSettings.CookieName = cookieName.ToIsNullOrEmptyThrow(nameof(cookieName));
+            CookiesSettings.CookieName = cookieName.ThrowIfNullOrEmpty(nameof(cookieName));
 
             return this;
         }
@@ -76,10 +76,10 @@ namespace Kitpymes.Core.Security
         {
             CookiesSettings.Expire = new ExpireSettings
             {
-                Days = days.ToIsLessThrow(0, nameof(days)),
-                Hours = hours.ToIsLessThrow(0, nameof(hours)),
-                Minutes = minutes.ToIsLessThrow(0, nameof(minutes)),
-                Seconds = seconds.ToIsLessThrow(0, nameof(seconds)),
+                Days = days.ThrowIfLess(0, nameof(days)),
+                Hours = hours.ThrowIfLess(0, nameof(hours)),
+                Minutes = minutes.ThrowIfLess(0, nameof(minutes)),
+                Seconds = seconds.ThrowIfLess(0, nameof(seconds)),
             };
 
             return this;
@@ -116,7 +116,7 @@ namespace Kitpymes.Core.Security
         /// <returns>CookiesOptions | ApplicationException: si loginPath es nulo o vacio.</returns>
         public CookiesOptions WithLoginPath(string loginPath)
         {
-            CookiesSettings.LoginPath = loginPath.ToIsNullOrEmptyThrow(nameof(loginPath));
+            CookiesSettings.LoginPath = loginPath.ThrowIfNullOrEmpty(nameof(loginPath));
 
             return this;
         }
@@ -128,7 +128,7 @@ namespace Kitpymes.Core.Security
         /// <returns>CookiesOptions | ApplicationException: si logoutPath es nulo o vacio.</returns>
         public CookiesOptions WithLogoutPath(string logoutPath)
         {
-            CookiesSettings.LogoutPath = logoutPath.ToIsNullOrEmptyThrow(nameof(logoutPath));
+            CookiesSettings.LogoutPath = logoutPath.ThrowIfNullOrEmpty(nameof(logoutPath));
 
             return this;
         }
@@ -140,7 +140,7 @@ namespace Kitpymes.Core.Security
         /// <returns>CookiesOptions | ApplicationException: si accessDeniedPath es nulo o vacio.</returns>
         public CookiesOptions WithAccessDeniedPath(string accessDeniedPath)
         {
-            CookiesSettings.AccessDeniedPath = accessDeniedPath.ToIsNullOrEmptyThrow(nameof(accessDeniedPath));
+            CookiesSettings.AccessDeniedPath = accessDeniedPath.ThrowIfNullOrEmpty(nameof(accessDeniedPath));
 
             return this;
         }
@@ -154,7 +154,7 @@ namespace Kitpymes.Core.Security
         public CookiesOptions WithReturnUrlParameter(string returnUrlParameter)
 #pragma warning restore CA1054 // Los parámetros de URI no deben ser cadenas
         {
-            CookiesSettings.ReturnUrlParameter = returnUrlParameter.ToIsNullOrEmptyThrow(nameof(returnUrlParameter));
+            CookiesSettings.ReturnUrlParameter = returnUrlParameter.ThrowIfNullOrEmpty(nameof(returnUrlParameter));
 
             return this;
         }

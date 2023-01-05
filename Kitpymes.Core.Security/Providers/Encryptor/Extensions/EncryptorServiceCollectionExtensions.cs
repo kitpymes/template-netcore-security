@@ -35,7 +35,7 @@ namespace Kitpymes.Core.Security
         /// <returns>IEncryptorProvider | ApplicationException: si no se encuentra el servicio IEncryptorProvider.</returns>
         public static IEncryptorService GetEncryptor(this IServiceCollection services)
         => services.ToService<IEncryptorService>()
-            .ToIsNullOrEmptyThrow(Shared.Util.Messages.NotFound(nameof(IEncryptorService)));
+            .ThrowIfNullOrEmpty(Shared.Util.Messages.NotFound(nameof(IEncryptorService)));
 
         /// <summary>
         /// Carga el servicio de encriptación.
@@ -58,7 +58,7 @@ namespace Kitpymes.Core.Security
             this IServiceCollection services,
             EncryptorSettings settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             if (config.Enabled == true)
             {
@@ -74,9 +74,9 @@ namespace Kitpymes.Core.Security
 
                     x.SetDefaultKeyLifetime(TimeSpan.FromDays(config.KeyLifetimeFromDays!.Value));
 
-                    if (!config.PersistKeysToFileSystem.ToIsNullOrEmpty())
+                    if (!config.PersistKeysToFileSystem.IsNullOrEmpty())
                     {
-                        if (!config.PersistKeysToFileSystem.ToIsDirectory())
+                        if (!config.PersistKeysToFileSystem.IsDirectory())
                         {
                             Directory.CreateDirectory(config.PersistKeysToFileSystem);
                         }
@@ -99,7 +99,7 @@ namespace Kitpymes.Core.Security
             this IServiceCollection services,
             Action<IDataProtectionBuilder> dataProtectionBuilder)
         {
-            var dataProtector = dataProtectionBuilder.ToIsNullOrEmptyThrow(nameof(dataProtectionBuilder));
+            var dataProtector = dataProtectionBuilder.ThrowIfNullOrEmpty(nameof(dataProtectionBuilder));
 
             var dataProtectionProvider = DataProtectionProvider.Create(new DirectoryInfo(EncryptorSettings.DefaultPersistKeysToFileSystem), dataProtector);
 

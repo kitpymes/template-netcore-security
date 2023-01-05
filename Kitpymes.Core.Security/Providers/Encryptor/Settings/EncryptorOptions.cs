@@ -59,7 +59,7 @@ namespace Kitpymes.Core.Security
         /// <returns>EncryptorOptions | ApplicationException: si keyLifetimeFromDays menor que 7.</returns>
         public EncryptorOptions WithKeyLifetimeFromDays(int keyLifetimeFromDays = EncryptorSettings.DefaultKeyLifetimeFromDays)
         {
-            EncryptorSettings.KeyLifetimeFromDays = keyLifetimeFromDays.ToIsLessThrow(7, nameof(keyLifetimeFromDays));
+            EncryptorSettings.KeyLifetimeFromDays = keyLifetimeFromDays.ThrowIfLess(7, nameof(keyLifetimeFromDays));
 
             return this;
         }
@@ -72,7 +72,7 @@ namespace Kitpymes.Core.Security
         public EncryptorOptions WithPersistKeysToFileSystems(string persistKeysToFileSystem = EncryptorSettings.DefaultPersistKeysToFileSystem)
         {
             EncryptorSettings.PersistKeysToFileSystem = persistKeysToFileSystem
-                .ToIsNullOrEmptyThrow(nameof(persistKeysToFileSystem));
+                .ThrowIfNullOrEmpty();
 
             return this;
         }

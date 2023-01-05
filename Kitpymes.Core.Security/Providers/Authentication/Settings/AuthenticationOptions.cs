@@ -43,7 +43,7 @@ namespace Kitpymes.Core.Security
                 .GetSection($"{nameof(SecuritySettings)}:{nameof(AuthenticationSettings)}:{nameof(JsonWebTokenSettings)}")?
                 .Get<JsonWebTokenSettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             return WithJsonWebToken(config);
         }
@@ -63,7 +63,7 @@ namespace Kitpymes.Core.Security
         /// <returns>AuthenticationOptions | ApplicationException: si JsonWebTokenSettings es nulo.</returns>
         public AuthenticationOptions WithJsonWebToken(JsonWebTokenSettings settings)
         {
-            AuthenticationSettings.JsonWebTokenSettings = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            AuthenticationSettings.JsonWebTokenSettings = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             return this;
         }
@@ -83,7 +83,7 @@ namespace Kitpymes.Core.Security
                 .GetSection($"{nameof(SecuritySettings)}:{nameof(AuthenticationSettings)}:{nameof(CookiesSettings)}")?
                 .Get<CookiesSettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             return WithCookies(config);
         }
@@ -103,7 +103,7 @@ namespace Kitpymes.Core.Security
         /// <returns>AuthenticationOptions | ApplicationException: si CookiesSettings es nulo.</returns>
         public AuthenticationOptions WithCookies(CookiesSettings settings)
         {
-            AuthenticationSettings.CookiesSettings = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            AuthenticationSettings.CookiesSettings = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             return this;
         }

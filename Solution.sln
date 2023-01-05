@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{93254BD6-6EFE-484E-A8F3-667FC28FF4A0}"
 	ProjectSection(SolutionItems) = preProject
@@ -26,19 +26,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{6A4CDB
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "screenshot", "screenshot", "{82AE9803-98EB-4F16-B850-FBC8D8A36C27}"
 	ProjectSection(SolutionItems) = preProject
-		docs\images\screenshot\resultados_addperson.png = docs\images\screenshot\resultados_addperson.png
-		docs\images\screenshot\resultados_changename.png = docs\images\screenshot\resultados_changename.png
 		docs\images\screenshot\resultados_testing.png = docs\images\screenshot\resultados_testing.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{B8F951C6-DA43-443D-8135-91276B698C8A}"
 	ProjectSection(SolutionItems) = preProject
-		_config.yml = _config.yml
 		docs\props\Common.Build.props = docs\props\Common.Build.props
 		.github\workflows\dotnetcore.yml = .github\workflows\dotnetcore.yml
 		global.json = global.json
 		docs\props\Pack.Build.props = docs\props\Pack.Build.props
 		docs\props\tests.runsettings = docs\props\tests.runsettings
+		_config.yml = _config.yml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "signassembly", "signassembly", "{DCFC7720-B209-4053-BCB3-F9110F421EBD}"

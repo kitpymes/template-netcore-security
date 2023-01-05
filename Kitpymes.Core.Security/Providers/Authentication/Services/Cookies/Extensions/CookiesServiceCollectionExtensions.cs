@@ -35,8 +35,7 @@ namespace Kitpymes.Core.Security
         /// <param name="services">Colección de servicios.</param>
         /// <returns>ICookiesService | ApplicationException: si no se encuentra el servicio ICookiesService.</returns>
         public static ICookiesService GetAuthCookies(this IServiceCollection services)
-        => services.ToService<ICookiesService>()
-            .ToIsNullOrEmptyThrow(Shared.Util.Messages.NotFound(nameof(ICookiesService)));
+            => services.ToService<ICookiesService>().ThrowIfNullOrEmpty(nameof(ICookiesService));
 
         /// <summary>
         /// Carga el servicio de autenticación por cookies.
@@ -59,7 +58,7 @@ namespace Kitpymes.Core.Security
             this IServiceCollection services,
             CookiesSettings settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty();
 
             if (config.Enabled.HasValue && config.Enabled.Value)
             {
@@ -70,7 +69,7 @@ namespace Kitpymes.Core.Security
                     .AddCookie(options =>
                     {
                         // limita la cookie a HTTPS. Recomiendo configurar esto en Siempre en prod. Déjelo configurado en Ninguno en local.
-                        options.Cookie.SecurePolicy = enviroment.IsDevelopment()
+                        options.Cookie.SecurePolicy = enviroment?.IsDevelopment() == true
                             ? CookieSecurePolicy.None : CookieSecurePolicy.Always;
 
                         // indica si el navegador puede usar la cookie con solicitudes entre sitios.

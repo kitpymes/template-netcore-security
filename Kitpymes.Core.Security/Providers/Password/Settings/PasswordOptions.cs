@@ -107,7 +107,7 @@ namespace Kitpymes.Core.Security
         /// <returns>PasswordOptions | ApplicationException: si requiredMinLength es menor que 1.</returns>
         public PasswordOptions WithRequiredMinLength(int requiredMinLength = PasswordSettings.DefaultRequiredMinLength)
         {
-            PasswordSettings.RequiredMinLength = requiredMinLength.ToIsLessThrow(1, nameof(requiredMinLength));
+            PasswordSettings.RequiredMinLength = requiredMinLength.ThrowIfLess(1, nameof(requiredMinLength));
 
             return this;
         }

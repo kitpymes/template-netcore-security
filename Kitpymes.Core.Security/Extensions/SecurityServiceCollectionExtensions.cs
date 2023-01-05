@@ -38,9 +38,9 @@ namespace Kitpymes.Core.Security
         {
             var settings = configuration?.GetSection(nameof(SecuritySettings))?.Get<SecuritySettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var service = services.LoadSecurity(settings);
 
-            return services.LoadSecurity(config);
+            return service;
         }
 
         /// <summary>
@@ -52,7 +52,13 @@ namespace Kitpymes.Core.Security
         public static IServiceCollection LoadSecurity(
             this IServiceCollection services,
             Action<SecurityOptions> options)
-        => services.LoadSecurity(options.ToConfigureOrDefault().SecuritySettings);
+        {
+            var settings = options.ToConfigureOrDefault().SecuritySettings;
+
+            var service = services.LoadSecurity(settings);
+
+            return service;
+        }
 
         /// <summary>
         /// Carga el servicio de seguridad.
@@ -62,9 +68,9 @@ namespace Kitpymes.Core.Security
         /// <returns>IServiceCollection | ApplicationException: si SecuritySettings es nulo.</returns>
         public static IServiceCollection LoadSecurity(
             this IServiceCollection services,
-            SecuritySettings settings)
+            SecuritySettings? settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             if (config.EncryptorSettings?.Enabled == true)
             {

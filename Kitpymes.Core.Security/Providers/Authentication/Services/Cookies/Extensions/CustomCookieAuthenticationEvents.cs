@@ -94,7 +94,7 @@ namespace Kitpymes.Core.Security
             var optionalData = new Dictionary<string, IEnumerable<string>>();
             optionalData.AddOrUpdate("AccessDeniedDateTime", DateTime.Now.ToLongDateString());
 
-            if (!username.ToIsNullOrEmpty())
+            if (!username.IsNullOrEmpty())
             {
                 optionalData.AddOrUpdate("Username", username);
             }

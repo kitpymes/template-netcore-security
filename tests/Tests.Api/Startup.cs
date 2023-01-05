@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json.Serialization;
+using System.Text.Json;
 
 namespace Tests.Api
 {
@@ -19,9 +21,7 @@ namespace Tests.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc()
-                .AddJsonOptions(options => {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
-                });
+                .AddJsonOptions(options => options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull);
 
             /*** JsonWebToken ***/
             //services.LoadSecurity(options => options.WithAuthentication(auth => auth.WithJsonWebToken(Configuration)));

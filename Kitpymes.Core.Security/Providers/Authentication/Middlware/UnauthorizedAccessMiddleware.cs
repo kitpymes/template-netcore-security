@@ -99,7 +99,7 @@ namespace Kitpymes.Core.Security
 
                 var detailsOptionalData = new Dictionary<string, IEnumerable<string>>();
 
-                if (!RequestBody.ToIsNullOrEmpty())
+                if (!RequestBody.IsNullOrEmpty())
                 {
                     detailsOptionalData.AddOrUpdate(nameof(RequestBody), RequestBody);
                 }
@@ -108,7 +108,7 @@ namespace Kitpymes.Core.Security
 
                 var result = Result.Unauthorized();
 
-                if (environment.IsDevelopment())
+                if (environment?.IsDevelopment() == true)
                 {
                     result.Message = exception.ToFullMessage();
                     result.Exception = exceptionTypeName;
@@ -116,7 +116,7 @@ namespace Kitpymes.Core.Security
                 }
                 else
                 {
-                    Logger.LogError(exception.ToFullMessage(), details);
+                    Logger.LogError(message: exception.ToFullMessage(), details);
                 }
 
                 var headers = new Dictionary<string, IEnumerable<string>>();

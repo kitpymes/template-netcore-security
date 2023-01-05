@@ -33,7 +33,7 @@ namespace Kitpymes.Core.Security
         /// <returns>IPasswordService | ApplicationException: si no encuentra el servicio IPasswordService.</returns>
         public static IPasswordService GetPassword(this IServiceCollection services)
         => services.ToService<IPasswordService>()
-            .ToIsNullOrEmptyThrow(Shared.Util.Messages.NotFound(nameof(IPasswordService)));
+            .ThrowIfNullOrEmpty(nameof(IPasswordService));
 
         /// <summary>
         /// Carga el servicio de contraseñas.
@@ -56,7 +56,7 @@ namespace Kitpymes.Core.Security
             this IServiceCollection services,
             PasswordSettings settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty();
 
             if (config.Enabled.HasValue && config.Enabled.Value)
             {

@@ -32,17 +32,14 @@ namespace Kitpymes.Core.Security
         /// <param name="services">Colección de servicios.</param>
         /// <param name="configuration">Configuración del servicio de autenticación.</param>
         /// <returns>IServiceCollection | ApplicationException: si SecuritySettings o AuthenticationSettings es nulo.</returns>
-        public static IServiceCollection LoadAuthentication(
-            this IServiceCollection services,
-            IConfiguration configuration)
+        public static IServiceCollection LoadAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             var settings = configuration?
                 .GetSection(nameof(SecuritySettings))?
-                .GetSection(nameof(AuthenticationSettings))?.Get<AuthenticationSettings>();
+                    .GetSection(nameof(AuthenticationSettings))?
+                        .Get<AuthenticationSettings>();
 
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
-
-            return services.LoadAuthentication(config);
+            return services.LoadAuthentication(settings);
         }
 
         /// <summary>
@@ -51,10 +48,12 @@ namespace Kitpymes.Core.Security
         /// <param name="services">Colección de servicios.</param>
         /// <param name="options">Configuración del servicio de autenticación.</param>
         /// <returns>IServiceCollection | ApplicationException: si AuthenticationSettings es nulo.</returns>
-        public static IServiceCollection LoadAuthentication(
-            this IServiceCollection services,
-            Action<AuthenticationSettings> options)
-        => services.LoadAuthentication(options.ToConfigureOrDefault());
+        public static IServiceCollection LoadAuthentication(this IServiceCollection services, Action<AuthenticationSettings> options)
+        {
+            var settings = options.ToConfigureOrDefault();
+
+            return services.LoadAuthentication(settings);
+        }
 
         /// <summary>
         /// Carga el servicio de autenticación.
@@ -62,11 +61,9 @@ namespace Kitpymes.Core.Security
         /// <param name="services">Colección de servicios.</param>
         /// <param name="settings">Configuración del servicio de autenticación.</param>
         /// <returns>IServiceCollection | ApplicationException: si AuthenticationSettings es nulo.</returns>
-        public static IServiceCollection LoadAuthentication(
-            this IServiceCollection services,
-            AuthenticationSettings settings)
+        public static IServiceCollection LoadAuthentication(this IServiceCollection services, AuthenticationSettings? settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             if (config.JsonWebTokenSettings?.Enabled == true)
             {

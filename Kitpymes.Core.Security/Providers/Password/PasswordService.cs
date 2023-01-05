@@ -41,42 +41,39 @@ namespace Kitpymes.Core.Security
         /// <inheritdoc/>
         public string? CreateRandom()
         {
-            if (PasswordSettings.Enabled == false)
-            {
-                Shared.Util.Check.Throw($"{nameof(PasswordSettings)} is not enabled.");
-            }
+            VerifyExtensions.ThrowIf(PasswordSettings.Enabled == false, $"{nameof(PasswordSettings)} is not enabled.");
 
             var passwordBuilder = new StringBuilder();
 
-            if (PasswordSettings.RequireDigit.HasValue && PasswordSettings.RequireDigit.Value == true)
+            if (PasswordSettings.RequireDigit == true)
             {
                 var digit = "0123456789".ToRandom(1);
 
                 passwordBuilder.Append(digit);
             }
 
-            if (PasswordSettings.RequireEspecialChars.HasValue && PasswordSettings.RequireEspecialChars.Value)
+            if (PasswordSettings.RequireEspecialChars == true)
             {
-                var especialChars = "@#%&*?¿_-+".ToRandom(1);
+                var especialChars = "@#%&*?¿_-+=".ToRandom(1);
 
                 passwordBuilder.Append(especialChars);
             }
 
-            if (PasswordSettings.RequireLowercase.HasValue && PasswordSettings.RequireLowercase.Value)
+            if (PasswordSettings.RequireLowercase == true)
             {
                 var lowercase = "abcdefghijklmnopqrstuvw".ToRandom(1);
 
                 passwordBuilder.Append(lowercase);
             }
 
-            if (PasswordSettings.RequireUppercase.HasValue && PasswordSettings.RequireUppercase.Value)
+            if (PasswordSettings.RequireUppercase == true)
             {
                 var uppercase = "ABCDEFGHJKLMNOPQRSTUVW".ToRandom(1);
 
                 passwordBuilder.Append(uppercase);
             }
 
-            if (PasswordSettings.RequiredUniqueChars.HasValue && PasswordSettings.RequiredUniqueChars.Value)
+            if (PasswordSettings.RequiredUniqueChars == true)
             {
                 var uniqueChars = "xyzXYZ".ToRandom(1);
 
@@ -113,10 +110,7 @@ namespace Kitpymes.Core.Security
         /// <inheritdoc/>
         public (string? hashPassword, List<PasswordErrorResult> errors) Create(string? plainPassword)
         {
-            if (PasswordSettings.Enabled == false)
-            {
-                Shared.Util.Check.Throw($"{nameof(PasswordSettings)} is not enabled.");
-            }
+            VerifyExtensions.ThrowIf(PasswordSettings.Enabled == false, $"{nameof(PasswordSettings)} is not enabled.");
 
             var errors = Validate(plainPassword);
 
@@ -140,49 +134,38 @@ namespace Kitpymes.Core.Security
         {
             var errors = new List<PasswordErrorResult>();
 
-            if (plainPassword.ToIsNullOrEmpty())
+            if (plainPassword.IsNullOrEmpty())
             {
                 errors.Add(PasswordErrorResult.RequiredValue);
             }
             else if (PasswordSettings != null)
             {
-                if (PasswordSettings.RequireDigit.HasValue
-                    && PasswordSettings.RequireDigit.Value
-                    && !plainPassword.ToIsDigit())
+                if (PasswordSettings.RequireDigit == true && !plainPassword.IsContainsDigit())
                 {
                     errors.Add(PasswordErrorResult.RequireDigit);
                 }
 
-                if (PasswordSettings.RequiredMinLength.HasValue
-                    && plainPassword.ToIsLess(PasswordSettings.RequiredMinLength.Value))
+                if (PasswordSettings.RequiredMinLength.HasValue && plainPassword.IsLess(PasswordSettings.RequiredMinLength.Value))
                 {
                     errors.Add(PasswordErrorResult.RequiredMinLength);
                 }
 
-                if (PasswordSettings.RequiredUniqueChars.HasValue
-                    && PasswordSettings.RequiredUniqueChars.Value
-                    && !plainPassword.ToIsUniqueChars())
+                if (PasswordSettings.RequiredUniqueChars == true && !plainPassword.IsContainsUniqueChars())
                 {
                     errors.Add(PasswordErrorResult.RequiredUniqueChars);
                 }
 
-                if (PasswordSettings.RequireEspecialChars.HasValue
-                    && PasswordSettings.RequireEspecialChars.Value
-                    && !plainPassword.ToIsEspecialChars())
+                if (PasswordSettings.RequireEspecialChars == true && !plainPassword.IsContainsEspecialChars())
                 {
                     errors.Add(PasswordErrorResult.RequireEspecialChars);
                 }
 
-                if (PasswordSettings.RequireLowercase.HasValue
-                    && PasswordSettings.RequireLowercase.Value
-                    && !plainPassword.ToIsLowercase())
+                if (PasswordSettings.RequireLowercase == true && !plainPassword.IsLowercase())
                 {
                     errors.Add(PasswordErrorResult.RequireLowercase);
                 }
 
-                if (PasswordSettings.RequireUppercase.HasValue
-                    && PasswordSettings.RequireUppercase.Value
-                    && !plainPassword.ToIsUppercase())
+                if (PasswordSettings.RequireUppercase == true && !plainPassword.IsUppercase())
                 {
                     errors.Add(PasswordErrorResult.RequireUppercase);
                 }
@@ -217,8 +200,8 @@ namespace Kitpymes.Core.Security
 
         private bool VerifyPassword(string? hashedPassword, string? plainPassword)
         {
-            var plain = plainPassword.ToIsNullOrEmptyThrow(nameof(plainPassword));
-            var hash = hashedPassword.ToIsNullOrEmptyThrow(nameof(hashedPassword));
+            var plain = plainPassword.ThrowIfNullOrEmpty();
+            var hash = hashedPassword.ThrowIfNullOrEmpty();
 
             byte[] decodedHashedPassword;
 

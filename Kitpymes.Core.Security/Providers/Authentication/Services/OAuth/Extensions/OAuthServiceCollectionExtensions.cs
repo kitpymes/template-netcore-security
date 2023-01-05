@@ -31,8 +31,7 @@ namespace Kitpymes.Core.Security
         /// <param name="services">Colección de servicios.</param>
         /// <returns>IJsonWebTokenService | ApplicationException: si no se encuentra el servicio IJsonWebTokenProvider.</returns>
         public static IJsonWebTokenService GetAuthOAuth(this IServiceCollection services)
-        => services.ToService<IJsonWebTokenService>()
-            .ToIsNullOrEmptyThrow(Shared.Util.Messages.NotFound(nameof(IJsonWebTokenService)));
+            => services.ToService<IJsonWebTokenService>().ThrowIfNullOrEmpty(nameof(IJsonWebTokenService));
 
         /// <summary>
         /// Carga el servicio de tokens.
@@ -55,7 +54,7 @@ namespace Kitpymes.Core.Security
             this IServiceCollection services,
             OAuthSettings settings)
         {
-            var config = settings.ToIsNullOrEmptyThrow(nameof(settings));
+            var config = settings.ThrowIfNullOrEmpty(nameof(settings));
 
             if (config.Enabled.HasValue && config.Enabled.Value)
             {
